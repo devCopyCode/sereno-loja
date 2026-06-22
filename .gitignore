@@ -1,0 +1,23 @@
+# Node
+node_modules/
+npm-debug.log
+
+# Python
+*.pyc
+__pycache__/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Testing
+test-checkout-flow.html
+
+# Temporary
+*.tmp
+*.temp
+.thumbnail
