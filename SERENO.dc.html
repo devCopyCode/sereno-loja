@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { margin: 0; }
+  ::selection { background: #A8744F; color: #F4F0E8; }
+  .prod-card { transition: box-shadow .35s ease; }
+  .prod-card:hover { box-shadow: 0 16px 44px rgba(58,53,44,.16); }
+  .prod-card:hover .zoom { transform: scale(1.05); }
+  .zoom { transition: transform .9s cubic-bezier(.2,.6,.2,1); }
+  .ul-link { background-image: linear-gradient(currentColor,currentColor); background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .3s ease; }
+  .ul-link:hover { background-size: 100% 1px; }
+  @media (max-width: 920px) {
+    .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+    .feito-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+    .garantia-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .cols-3 { grid-template-columns: 1fr !important; gap: 44px !important; }
+    .bullets-3 { grid-template-columns: 1fr !important; }
+    .grid-3 { grid-template-columns: repeat(2,1fr) !important; gap: 24px !important; }
+    .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
+    .nav-anchor { display: none !important; }
+  }
+  @media (max-width: 560px) {
+    .grid-3 { grid-template-columns: 1fr !important; }
+    .footer-grid { grid-template-columns: 1fr !important; }
+    .sect-pad { padding-left: 22px !important; padding-right: 22px !important; }
+  }
+</style>
+</helmet>
+
+<div style="font-family:'Inter',system-ui,sans-serif; color:#2A2A26; background:#F4F0E8; -webkit-font-smoothing:antialiased; overflow-x:hidden;">
+
+  <!-- ===================== NAV ===================== -->
+  <nav data-sereno-nav="true" style="position:fixed; top:0; left:0; right:0; z-index:50; background:#F4F0E8; transition:background-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease;">
+    <div style="max-width:1280px; margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between;">
+      <a href="#top" style="font-family:'Fraunces',serif; font-weight:600; font-size:25px; letter-spacing:.14em; color:#3A352C; text-decoration:none;">SERENO</a>
+      <div style="display:flex; align-items:center; gap:34px;">
+        <a href="#colecao" class="ul-link nav-anchor" style="font-size:14.5px; color:#3A352C; text-decoration:none;">Coleção</a>
+        <a href="#limitadas" class="ul-link nav-anchor" style="font-size:14.5px; color:#3A352C; text-decoration:none;">Edições limitadas</a>
+        <a href="#porque" class="ul-link nav-anchor" style="font-size:14.5px; color:#3A352C; text-decoration:none;">Por que linho</a>
+        <a href="#avaliacoes" class="ul-link nav-anchor" style="font-size:14.5px; color:#3A352C; text-decoration:none;">Avaliações</a>
+        <a href="{{ checkout }}" style="font-family:'Inter',sans-serif; font-size:14px; font-weight:500; letter-spacing:.01em; color:#F4F0E8; background:var(--accent,#A8744F); padding:11px 22px; border-radius:2px; text-decoration:none; transition:background-color .15s ease;" style-hover="background:var(--accent-dark,#8F5E3D)">Comprar agora</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="top" style="height:1px;"></div>
+
+  <!-- ===================== HERO ===================== -->
+  <header style="max-width:1280px; margin:0 auto; padding:128px 32px 28px;">
+    <div class="hero-grid" style="display:grid; grid-template-columns:1.05fr 1fr; gap:64px; align-items:center;">
+      <div data-fade>
+        <div style="font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#A8744F); font-weight:500; margin-bottom:26px;">Feito em São Paulo · Lotes pequenos</div>
+        <h1 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(44px,5.2vw,76px); line-height:1.02; letter-spacing:-0.04em; color:#3A352C; margin:0 0 26px; text-wrap:balance;">Linho que dura<br>a sua década.</h1>
+        <p style="font-size:18.5px; line-height:1.6; color:#2A2A26; max-width:460px; margin:0 0 38px;">Roupas de tecido natural, feitas em São Paulo em lotes pequenos. Frescas no calor, melhores a cada uso.</p>
+        <div style="display:flex; align-items:center; gap:28px; flex-wrap:wrap;">
+          <a href="{{ checkout }}" style="font-size:15.5px; font-weight:500; color:#F4F0E8; background:var(--accent,#A8744F); padding:16px 30px; border-radius:2px; text-decoration:none; transition:background-color .15s ease;" style-hover="background:var(--accent-dark,#8F5E3D)">Comprar agora →</a>
+          <a href="#colecao" class="ul-link" style="font-size:15.5px; color:#3A352C; text-decoration:none; font-weight:400;">Ver a coleção</a>
+        </div>
+      </div>
+      <div data-fade style="position:relative; aspect-ratio:2/3; background:#E8E1D2; border-radius:2px; overflow:hidden;">
+        <img src="images/hero-principal.png" alt="Peça de linho vestida em luz natural" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== BENEFIT BULLETS ===================== -->
+  <section style="max-width:1280px; margin:0 auto; padding:38px 32px 64px;">
+    <div data-fade class="bullets-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(58,53,44,.14); border-top:1px solid rgba(58,53,44,.14); border-bottom:1px solid rgba(58,53,44,.14);">
+      <div style="background:#F4F0E8; padding:26px 28px 26px 0;"><p style="margin:0; font-size:15px; line-height:1.5; color:#2A2A26;">Linho e algodão <strong style="font-weight:600;">OEKO-TEX</strong> que respiram de verdade no calor.</p></div>
+      <div style="background:#F4F0E8; padding:26px 28px;"><p style="margin:0; font-size:15px; line-height:1.5; color:#2A2A26;">Caimento atemporal — você usa por anos, não por uma estação.</p></div>
+      <div style="background:#F4F0E8; padding:26px 0 26px 28px;"><p style="margin:0; font-size:15px; line-height:1.5; color:#2A2A26;">Primeira lavagem por nossa conta: troca grátis ou reembolso em 60 dias.</p></div>
+    </div>
+  </section>
+
+  <!-- ===================== FAIXA DE PROVA ===================== -->
+  <section style="background:#3A352C; margin-top:24px;">
+    <div style="max-width:1280px; margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:center; gap:22px; flex-wrap:wrap; text-align:center;">
+      <span style="font-size:13.5px; letter-spacing:.04em; color:#F4F0E8;">8 coleções esgotadas</span>
+      <span style="width:1px; height:13px; background:rgba(244,240,232,.32); flex-shrink:0;"></span>
+      <span style="font-size:13.5px; letter-spacing:.04em; color:#F4F0E8;">4,9/5 em 1.100+ avaliações</span>
+      <span style="width:1px; height:13px; background:rgba(244,240,232,.32); flex-shrink:0;"></span>
+      <span style="font-size:13.5px; letter-spacing:.04em; color:#F4F0E8;">tecido certificado OEKO-TEX</span>
+    </div>
+  </section>
+
+  <!-- ===================== A COLEÇÃO ===================== -->
+  <section id="colecao" style="max-width:1280px; margin:0 auto; padding:96px 32px;">
+    <div data-fade style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:48px; flex-wrap:wrap; gap:20px;">
+      <div>
+        <div style="font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#A8744F); font-weight:500; margin-bottom:16px;">A coleção</div>
+        <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(32px,3.6vw,46px); line-height:1.05; letter-spacing:-0.01em; color:#3A352C; margin:0;">Peças certas,<br>feitas para durar.</h2>
+      </div>
+      <a href="{{ checkout }}" class="ul-link" style="font-size:15px; color:#3A352C; text-decoration:none; font-weight:500; padding-bottom:6px;">Ver tudo →</a>
+    </div>
+
+    <div class="grid-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:32px;">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="9">
+        <div class="prod-card" data-fade style="background:#F4F0E8; border-radius:2px;">
+          <div style="position:relative; aspect-ratio:3/4; overflow:hidden; border-radius:2px;">
+            <img class="zoom" src="{{ p.image }}" alt="{{ p.nome }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+            <sc-if value="{{ p.isLimited }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute; top:12px; left:12px; background:var(--accent,#A8744F); color:#F4F0E8; font-size:10.5px; letter-spacing:.04em; padding:6px 10px; border-radius:2px; font-weight:500;">Edição limitada · numeração própria</div>
+            </sc-if>
+            <sc-if value="{{ p.isEsgotado }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute; inset:0; background:rgba(244,240,232,.55); display:flex; align-items:center; justify-content:center;"><span style="background:#3A352C; color:#F4F0E8; font-size:11px; letter-spacing:.12em; text-transform:uppercase; padding:8px 16px; border-radius:2px;">Esgotado</span></div>
+            </sc-if>
+          </div>
+          <div style="padding:18px 2px 4px;">
+            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
+              <h3 style="font-family:'Inter',sans-serif; font-weight:500; font-size:16px; color:#2A2A26; margin:0;">{{ p.nome }}</h3>
+              <span style="font-size:15px; color:#3A352C; font-weight:500; white-space:nowrap;">{{ p.preco }}</span>
+            </div>
+            <sc-if value="{{ p.isLimited }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:7px 0 0; font-size:12.5px; color:var(--accent,#A8744F); letter-spacing:.01em;">quando esgota, não volta</p>
+            </sc-if>
+            <div style="margin-top:16px;">
+              <sc-if value="{{ p.isEsgotado }}" hint-placeholder-val="{{ false }}">
+                <a href="{{ checkout }}" class="ul-link" style="font-size:13px; color:rgba(42,42,38,.6); text-decoration:none;">me avise se voltar meu tamanho</a>
+              </sc-if>
+              <sc-if value="{{ p.disponivel }}" hint-placeholder-val="{{ true }}">
+                <a href="{{ checkout }}" style="display:inline-block; font-size:14px; font-weight:500; color:#3A352C; border:1px solid rgba(58,53,44,.35); padding:10px 22px; border-radius:2px; text-decoration:none; transition:background-color .15s ease, color .15s ease, border-color .15s ease;" style-hover="background:var(--accent,#A8744F); color:#F4F0E8; border-color:var(--accent,#A8744F)">Comprar</a>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUE LINHO ===================== -->
+  <section id="porque" style="background:#EDE7DB;">
+    <div style="max-width:1280px; margin:0 auto; padding:96px 32px;">
+      <div data-fade style="text-align:center; margin-bottom:60px;">
+        <div style="font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#A8744F); font-weight:500; margin-bottom:16px;">Por que linho</div>
+        <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(32px,3.6vw,46px); line-height:1.05; letter-spacing:-0.01em; color:#3A352C; margin:0;">O tecido faz o trabalho.</h2>
+      </div>
+      <div class="cols-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:56px;">
+        <div data-fade style="text-align:center;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin-bottom:22px;"><circle cx="20" cy="20" r="9" stroke="#A8744F" stroke-width="1.4"/><circle cx="20" cy="20" r="16" stroke="#A8744F" stroke-width="1.4" stroke-dasharray="3 5"/></svg>
+          <h3 style="font-family:'Fraunces',serif; font-weight:500; font-size:23px; color:#3A352C; margin:0 0 12px;">Respira no calor</h3>
+          <p style="font-size:15px; line-height:1.6; color:#2A2A26; margin:0; max-width:300px; margin-left:auto; margin-right:auto;">Fibra natural com trama aberta: o ar circula, o suor evapora. Você passa o dia fresco, não grudado.</p>
+        </div>
+        <div data-fade style="text-align:center;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin-bottom:22px;"><rect x="11" y="11" width="18" height="18" transform="rotate(45 20 20)" stroke="#A8744F" stroke-width="1.4"/></svg>
+          <h3 style="font-family:'Fraunces',serif; font-weight:500; font-size:23px; color:#3A352C; margin:0 0 12px;">Dura anos</h3>
+          <p style="font-size:15px; line-height:1.6; color:#2A2A26; margin:0; max-width:300px; margin-left:auto; margin-right:auto;">Costura reforçada e tecido pré-encolhido. Não desbota a cada lavagem nem perde o caimento na segunda estação.</p>
+        </div>
+        <div data-fade style="text-align:center;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin-bottom:22px;"><circle cx="20" cy="20" r="15" stroke="#A8744F" stroke-width="1.4"/><path d="M13 20 L18 25 L27 14" stroke="#A8744F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3 style="font-family:'Fraunces',serif; font-weight:500; font-size:23px; color:#3A352C; margin:0 0 12px;">Fica melhor com o uso</h3>
+          <p style="font-size:15px; line-height:1.6; color:#2A2A26; margin:0; max-width:300px; margin-left:auto; margin-right:auto;">O linho amacia a cada lavagem e ganha um caimento próprio. A peça vira sua — não envelhece, matura.</p>
+        </div>
+      </div>
+      <div data-fade style="text-align:center; margin-top:64px;">
+        <a href="#colecao" style="display:inline-block; font-size:15px; font-weight:500; color:#3A352C; border:1px solid rgba(58,53,44,.35); padding:14px 30px; border-radius:2px; text-decoration:none; transition:background-color .15s ease, color .15s ease, border-color .15s ease;" style-hover="background:var(--accent,#A8744F); color:#F4F0E8; border-color:var(--accent,#A8744F)">Ver a coleção</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMO É FEITO ===================== -->
+  <section style="max-width:1280px; margin:0 auto; padding:96px 32px;">
+    <div class="feito-grid" style="display:grid; grid-template-columns:1fr 1.1fr; gap:64px; align-items:center;">
+      <div data-fade style="position:relative; aspect-ratio:3/2; background:#E8E1D2; border-radius:2px; overflow:hidden;">
+        <img src="images/como-e-feito.png" alt="Rolos de tecido de linho e algodão em luz natural" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+      </div>
+      <div data-fade>
+        <div style="font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#A8744F); font-weight:500; margin-bottom:18px;">Como é feito</div>
+        <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(30px,3.4vw,42px); line-height:1.08; letter-spacing:-0.01em; color:#3A352C; margin:0 0 26px;">Sem mistério, sem atravessador.</h2>
+        <div style="display:flex; flex-direction:column; gap:22px; max-width:480px;">
+          <div style="display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:start;"><span style="font-family:'Fraunces',serif; font-size:17px; color:var(--accent,#A8744F);">01</span><p style="margin:0; font-size:15.5px; line-height:1.6;">Linho europeu e algodão certificado <strong style="font-weight:600;">OEKO-TEX</strong> — sem químicos agressivos, lavado e pré-encolhido antes de virar peça.</p></div>
+          <div style="display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:start;"><span style="font-family:'Fraunces',serif; font-size:17px; color:var(--accent,#A8744F);">02</span><p style="margin:0; font-size:15.5px; line-height:1.6;">Lotes pequenos. Cortamos dezenas, não milhares — menos desperdício, mais controle de cada acabamento.</p></div>
+          <div style="display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:start;"><span style="font-family:'Fraunces',serif; font-size:17px; color:var(--accent,#A8744F);">03</span><p style="margin:0; font-size:15.5px; line-height:1.6;">Costurado por ateliês parceiros em São Paulo, com pagamento justo e relação de anos — não de pedido.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EDIÇÕES LIMITADAS ===================== -->
+  <section id="limitadas" style="background:#EDE7DB;">
+    <div style="max-width:1280px; margin:0 auto; padding:96px 32px;">
+      <div data-fade style="max-width:620px; margin-bottom:56px;">
+        <div style="font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#A8744F); font-weight:500; margin-bottom:16px;">Edições limitadas</div>
+        <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(32px,3.6vw,46px); line-height:1.05; letter-spacing:-0.01em; color:#3A352C; margin:0 0 22px;">Edições limitadas</h2>
+        <p style="font-size:17px; line-height:1.6; color:#2A2A26; margin:0;">Algumas peças nascem em numeração própria — tecido especial, lote pequeno, sem reposição. Quando seu tamanho esgota, fica só com quem comprou.</p>
+      </div>
+      <div class="grid-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:36px;">
+        <sc-for list="{{ limited }}" as="p" hint-placeholder-count="3">
+          <div class="prod-card" data-fade style="background:#F4F0E8; border-radius:2px;">
+            <div style="position:relative; aspect-ratio:3/4; overflow:hidden; border-radius:2px;">
+              <img class="zoom" src="{{ p.image }}" alt="{{ p.nome }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+              <div style="position:absolute; top:14px; left:14px; background:var(--accent,#A8744F); color:#F4F0E8; font-size:10.5px; letter-spacing:.04em; padding:6px 11px; border-radius:2px; font-weight:500;">Edição limitada · numeração própria</div>
+            </div>
+            <div style="padding:22px 4px 6px;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
+                <h3 style="font-family:'Fraunces',serif; font-weight:500; font-size:21px; color:#3A352C; margin:0;">{{ p.nome }}</h3>
+                <span style="font-size:16px; color:#3A352C; font-weight:500; white-space:nowrap;">{{ p.preco }}</span>
+              </div>
+              <p style="margin:8px 0 18px; font-size:13px; color:var(--accent,#A8744F);">{{ p.num }} · quando esgota, não volta</p>
+              <a href="{{ checkout }}" style="display:inline-block; font-size:14px; font-weight:500; color:#F4F0E8; background:var(--accent,#A8744F); padding:11px 24px; border-radius:2px; text-decoration:none; transition:background-color .15s ease;" style-hover="background:var(--accent-dark,#8F5E3D)">Comprar</a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div data-fade style="margin-top:52px;">
+        <a href="{{ checkout }}" style="display:inline-block; font-size:15px; font-weight:500; color:#F4F0E8; background:var(--accent,#A8744F); padding:15px 32px; border-radius:2px; text-decoration:none; transition:background-color .15s ease;" style-hover="background:var(--accent-dark,#8F5E3D)">Ver edições limitadas →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AVALIAÇÕES ===================== -->
+  <section id="avaliacoes" style="max-width:1280px; margin:0 auto; padding:96px 32px;">
+    <div data-fade style="text-align:center; margin-bottom:56px;">
+      <div style="font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#A8744F); font-weight:500; margin-bottom:16px;">Avaliações</div>
+      <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(32px,3.6vw,46px); line-height:1.05; letter-spacing:-0.01em; color:#3A352C; margin:0;">4,9/5 · 1.100+ pessoas</h2>
+    </div>
+    <div class="grid-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+      <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="6">
+        <div data-fade style="border:1px solid rgba(58,53,44,.14); border-radius:2px; overflow:hidden; background:#F4F0E8; display:flex; flex-direction:column;">
+          <div style="position:relative; aspect-ratio:4/3; background:repeating-linear-gradient(135deg,#E8E1D2 0 14px,#DFD6C3 14px 28px);">
+            <span style="position:absolute; bottom:12px; left:12px; font-family:monospace; font-size:10px; letter-spacing:.04em; text-transform:uppercase; color:rgba(58,53,44,.48);">{{ r.img }}</span>
+            <sc-if value="{{ r.video }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;"><div style="width:56px; height:56px; border-radius:50%; background:rgba(58,53,44,.78); display:flex; align-items:center; justify-content:center;"><svg width="18" height="20" viewBox="0 0 18 20" fill="#F4F0E8"><path d="M0 0 L18 10 L0 20 Z"/></svg></div></div>
+            </sc-if>
+          </div>
+          <div style="padding:22px 22px 24px; display:flex; flex-direction:column; gap:12px; flex:1;">
+            <div style="font-size:14px; letter-spacing:.12em; color:var(--accent,#A8744F);">{{ r.stars }}<span style="color:rgba(58,53,44,.25);">{{ r.empty }}</span></div>
+            <p style="margin:0; font-size:14.5px; line-height:1.6; color:#2A2A26; flex:1;">{{ r.texto }}</p>
+            <div style="margin-top:4px;"><span style="font-size:14px; font-weight:500; color:#3A352C;">{{ r.nome }}</span><span style="font-size:13px; color:rgba(42,42,38,.55);"> · {{ r.cidade }}</span></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ===================== GARANTIA + TROCAS ===================== -->
+  <section style="background:#EDE7DB;">
+    <div style="max-width:1280px; margin:0 auto; padding:80px 32px;">
+      <div data-fade class="garantia-grid" style="display:grid; grid-template-columns:1.2fr 1fr; gap:56px; align-items:center;">
+        <div>
+          <div style="font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#A8744F); font-weight:500; margin-bottom:18px;">Garantia & trocas</div>
+          <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(28px,3.2vw,40px); line-height:1.1; letter-spacing:-0.01em; color:#3A352C; margin:0 0 18px;">Primeira lavagem por nossa conta.</h2>
+          <p style="font-size:17px; line-height:1.6; color:#2A2A26; margin:0; max-width:480px;">Desbotou ou encolheu? Troca grátis ou reembolso em <strong style="font-weight:600;">60 dias</strong>. Sem letra miúda.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; gap:14px; align-items:baseline;"><span style="color:var(--accent,#A8744F); font-size:15px;">→</span><p style="margin:0; font-size:15px; line-height:1.5;"><strong style="font-weight:600;">Entrega</strong> em 3–7 dias úteis para todo o Brasil, frete grátis acima de R$ 400.</p></div>
+          <div style="display:flex; gap:14px; align-items:baseline;"><span style="color:var(--accent,#A8744F); font-size:15px;">→</span><p style="margin:0; font-size:15px; line-height:1.5;"><strong style="font-weight:600;">Trocas</strong> de tamanho grátis na primeira compra, etiqueta de retorno inclusa.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section style="max-width:820px; margin:0 auto; padding:96px 32px;">
+    <div data-fade style="text-align:center; margin-bottom:52px;">
+      <div style="font-size:12.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#A8744F); font-weight:500; margin-bottom:16px;">Perguntas frequentes</div>
+      <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(30px,3.4vw,42px); line-height:1.05; letter-spacing:-0.01em; color:#3A352C; margin:0;">Antes de comprar.</h2>
+    </div>
+    <div data-fade>
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+        <div style="border-top:1px solid rgba(58,53,44,.16);">
+          <button onClick="{{ f.toggle }}" style="width:100%; background:none; border:none; cursor:pointer; padding:24px 4px; display:flex; align-items:center; justify-content:space-between; gap:24px; text-align:left; font-family:'Inter',sans-serif;">
+            <span style="font-size:17px; font-weight:500; color:#3A352C; line-height:1.4;">{{ f.q }}</span>
+            <span style="font-size:24px; color:var(--accent,#A8744F); flex-shrink:0; line-height:1;">{{ f.sign }}</span>
+          </button>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="{{ f.openHint }}">
+            <p style="margin:0; padding:0 4px 26px; font-size:15.5px; line-height:1.65; color:#2A2A26; max-width:680px;">{{ f.a }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+      <div style="border-top:1px solid rgba(58,53,44,.16);"></div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA FINAL ===================== -->
+  <section style="background:#3A352C;">
+    <div data-fade style="max-width:1280px; margin:0 auto; padding:108px 32px; text-align:center;">
+      <h2 style="font-family:'Fraunces',serif; font-weight:500; font-size:clamp(40px,5vw,68px); line-height:1.02; letter-spacing:-0.015em; color:#F4F0E8; margin:0 0 36px; text-wrap:balance;">Poucas peças. Certas.<br>Por anos.</h2>
+      <a href="{{ checkout }}" style="display:inline-block; font-size:16px; font-weight:500; color:#3A352C; background:var(--accent,#A8744F); padding:18px 40px; border-radius:2px; text-decoration:none; transition:background-color .15s ease, color .15s ease;" style-hover="background:#F4F0E8">Comprar agora →</a>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer style="background:#322E26; color:rgba(244,240,232,.75);">
+    <div style="max-width:1280px; margin:0 auto; padding:72px 32px 40px;">
+      <div class="footer-grid" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:48px;">
+        <div>
+          <div style="font-family:'Fraunces',serif; font-weight:600; font-size:26px; letter-spacing:.14em; color:#F4F0E8; margin-bottom:18px;">SERENO</div>
+          <p style="margin:0; font-size:14px; line-height:1.6; max-width:260px;">Roupas de linho e algodão feitas em lotes pequenos em São Paulo. Frescas no calor, melhores a cada uso.</p>
+        </div>
+        <div>
+          <div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(244,240,232,.45); margin-bottom:18px;">Loja</div>
+          <div style="display:flex; flex-direction:column; gap:11px;">
+            <a href="#colecao" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Coleção</a>
+            <a href="#limitadas" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Edições limitadas</a>
+            <a href="#porque" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Por que linho</a>
+            <a href="#avaliacoes" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Avaliações</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(244,240,232,.45); margin-bottom:18px;">Ajuda</div>
+          <div style="display:flex; flex-direction:column; gap:11px;">
+            <a href="#" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Política de troca</a>
+            <a href="#" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Prazo de entrega</a>
+            <a href="#" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Guia de tamanhos</a>
+            <a href="mailto:ola@sereno.com.br" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">ola@sereno.com.br</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(244,240,232,.45); margin-bottom:18px;">Social</div>
+          <div style="display:flex; flex-direction:column; gap:11px;">
+            <a href="#" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Instagram</a>
+            <a href="#" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">Pinterest</a>
+            <a href="#" class="ul-link" style="font-size:14px; color:rgba(244,240,232,.78); text-decoration:none;">TikTok</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:56px; padding-top:26px; border-top:1px solid rgba(244,240,232,.14); display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+        <span style="font-size:12.5px; color:rgba(244,240,232,.5);">© 2026 Sereno Vestuário Ltda · CNPJ 48.221.905/0001-32 · São Paulo, SP</span>
+        <span style="font-size:12.5px; color:rgba(244,240,232,.5);">Tecido certificado OEKO-TEX · Troca grátis em 60 dias</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:900},&quot;checkoutUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#checkout&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#A8744F&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;enableAnimations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { openFaq: 0 };
+
+  toggleFaq(i) {
+    this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i }));
+  }
+
+  darken(hex, amt) {
+    try {
+      const h = hex.replace('#', '');
+      const n = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+      let r = parseInt(n.slice(0,2),16), g = parseInt(n.slice(2,4),16), b = parseInt(n.slice(4,6),16);
+      r = Math.max(0, Math.round(r*(1-amt)));
+      g = Math.max(0, Math.round(g*(1-amt)));
+      b = Math.max(0, Math.round(b*(1-amt)));
+      return '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+    } catch(e) { return '#8F5E3D'; }
+  }
+
+  applyVars() {
+    const accent = this.props.accentColor || '#A8744F';
+    const root = document.documentElement;
+    root.style.setProperty('--accent', accent);
+    root.style.setProperty('--accent-dark', this.darken(accent, 0.16));
+  }
+
+  componentDidMount() {
+    this.applyVars();
+
+    const nav = document.querySelector('[data-sereno-nav]');
+    this._onScroll = () => {
+      if (!nav) return;
+      if ((window.scrollY || 0) > 16) {
+        nav.style.backgroundColor = 'rgba(244,240,232,0.82)';
+        nav.style.backdropFilter = 'saturate(180%) blur(14px)';
+        nav.style.webkitBackdropFilter = 'saturate(180%) blur(14px)';
+        nav.style.boxShadow = '0 1px 0 rgba(58,53,44,0.08)';
+      } else {
+        nav.style.backgroundColor = '#F4F0E8';
+        nav.style.backdropFilter = 'none';
+        nav.style.webkitBackdropFilter = 'none';
+        nav.style.boxShadow = 'none';
+      }
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+
+    if (this.props.enableAnimations !== false) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'none';
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -32px 0px' });
+      this._io = io;
+      const reveal = () => {
+        document.querySelectorAll('[data-fade]').forEach(el => {
+          if (el.dataset.fadeInit) return;
+          const r = el.getBoundingClientRect();
+          if (r.top > window.innerHeight * 0.9) {
+            el.dataset.fadeInit = '1';
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(24px)';
+            el.style.transition = 'opacity .75s ease, transform .75s ease';
+            io.observe(el);
+          } else {
+            el.dataset.fadeInit = '1';
+          }
+        });
+      };
+      // run after layout settles
+      requestAnimationFrame(() => requestAnimationFrame(reveal));
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps && prevProps.accentColor !== this.props.accentColor) this.applyVars();
+  }
+
+  componentWillUnmount() {
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    if (this._io) this._io.disconnect();
+  }
+
+  renderVals() {
+    const checkout = this.props.checkoutUrl || '#checkout';
+
+    const rawProducts = [
+      { nome: 'Camisa de Linho Manga Longa', preco: 'R$ 389', tipo: 'essencial', esgotado: false, image: 'images/01-camisa-linho-manga-longa.png' },
+      { nome: 'Calça de Linho Cintura Alta',  preco: 'R$ 459', tipo: 'essencial', esgotado: false, image: 'images/02-calca-linho-cintura-alta.png' },
+      { nome: 'Camiseta de Algodão Pesado',   preco: 'R$ 219', tipo: 'essencial', esgotado: false, image: 'images/03-camiseta-algodao-pesado.png' },
+      { nome: 'Vestido Chemise de Linho',     preco: 'R$ 629', tipo: 'essencial', esgotado: false, image: 'images/04-vestido-chemise-linho.png' },
+      { nome: 'Bermuda de Linho',             preco: 'R$ 239', tipo: 'essencial', esgotado: false, image: 'images/05-bermuda-linho.png' },
+      { nome: 'Blazer de Linho Tingido à Mão', preco: 'R$ 749', tipo: 'limitada',  esgotado: false, image: 'images/06-blazer-linho-tingido.png' },
+      { nome: 'Camisa de Linho Listrada',     preco: 'R$ 419', tipo: 'limitada',  esgotado: false, image: 'images/07-camisa-linho-listrada.png' },
+      { nome: 'Macacão de Linho',             preco: 'R$ 689', tipo: 'limitada',  esgotado: false, image: 'images/08-macacao-linho.png' },
+    ];
+    const products = rawProducts.map(p => ({
+      ...p,
+      isLimited: p.tipo === 'limitada' && !p.esgotado,
+      isEsgotado: p.esgotado,
+      disponivel: !p.esgotado,
+    }));
+
+    const limited = [
+      { nome: 'Vestido Linho Ondina', preco: 'R$ 629', num: 'nº 1–60',  image: 'images/09-vestido-ondina.png' },
+      { nome: 'Macacão Sereno',       preco: 'R$ 689', num: 'nº 1–45',  image: 'images/10-macacao-sereno.png' },
+      { nome: 'Sobretudo Linho Bruma',preco: 'R$ 920', num: 'nº 1–30',  image: 'images/11-sobretudo-bruma.png' },
+    ];
+
+    const stars = (n) => ({ stars: '★'.repeat(n), empty: '★'.repeat(5 - n) });
+    const reviews = [
+      { ...stars(5), nome: 'Marina A.',   cidade: 'São Paulo, SP',      video: false, img: 'cliente · camisa cru',  texto: 'Comprei a camisa pro calor de SP e foi a melhor decisão. Lava, seca rápido e o caimento continua igual depois de meses.' },
+      { ...stars(5), nome: 'Rafael T.',   cidade: 'Rio de Janeiro, RJ', video: false, img: 'cliente · calça linho', texto: 'Tecido honesto. Paguei mais que numa fast fashion e já entendi por quê — uso quase toda semana há um ano.' },
+      { ...stars(5), nome: 'Camila V.',   cidade: 'Belo Horizonte, MG', video: true,  img: 'vídeo · cliente vestindo', texto: 'O vídeo mostra como o vestido cai de verdade. Fresquinho e elegante ao mesmo tempo.' },
+      { ...stars(5), nome: 'Joana M.',    cidade: 'Curitiba, PR',       video: false, img: 'cliente · blazer areia', texto: 'O blazer virou meu coringa de trabalho. Amassa bonito, do jeito que linho bom deve amassar.' },
+      { ...stars(4), nome: 'Pedro L.',    cidade: 'Porto Alegre, RS',   video: false, img: 'cliente · camiseta pima', texto: 'A camiseta de algodão pima é absurda de macia. Tirei uma estrela só porque queria mais cores.' },
+      { ...stars(5), nome: 'Beatriz S.',  cidade: 'Recife, PE',         video: false, img: 'cliente · túnica praia', texto: 'No calor do Recife, é a única coisa que uso. Respira de verdade, não gruda no corpo.' },
+    ];
+
+    const rawFaqs = [
+      { q: 'Linho não vive amassado?', a: 'O nosso é lavado e pré-encolhido pra um amassado bonito, de roupa boa — não de roupa descuidada. É o tecido vivo, e é justamente por isso que ele é fresco e dura.' },
+      { q: 'Como escolho meu tamanho e caimento?', a: 'Cada peça tem guia de medidas reais (não só P/M/G). O caimento é solto e atemporal por design. Na dúvida entre dois, fique com o menor — o linho cede levemente com o uso. Trocas de tamanho são grátis na primeira compra.' },
+      { q: 'Como lavo pra durar?', a: 'Máquina em ciclo delicado, água fria, secagem à sombra. Sem alvejante. Já vem pré-encolhido, então não surpreende no tamanho. Quanto mais lava, mais macio fica.' },
+      { q: 'Qual o prazo de entrega?', a: 'De 3 a 7 dias úteis para todo o Brasil. Frete grátis acima de R$ 400. Você recebe o código de rastreio assim que a peça sai do nosso ateliê em São Paulo.' },
+      { q: 'E se não servir ou eu não gostar?', a: 'Troca grátis ou reembolso em até 60 dias, etiqueta de retorno inclusa. Se desbotar ou encolher na primeira lavagem, a conta é nossa.' },
+      { q: 'Por que algumas peças esgotam e não voltam?', a: 'As edições limitadas são feitas em numeração própria, com tecido especial e lote pequeno. Sem reposição: quando seu tamanho esgota, fica só com quem comprou. Os Essenciais, esses sim repomos sempre.' },
+    ];
+    const faqs = rawFaqs.map((f, i) => ({
+      ...f,
+      open: this.state.openFaq === i,
+      openHint: i === 0,
+      sign: this.state.openFaq === i ? '–' : '+',
+      toggle: () => this.toggleFaq(i),
+    }));
+
+    return { checkout, products, limited, reviews, faqs };
+  }
+}
+</script>
+</body>
+</html>

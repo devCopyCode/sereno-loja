@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout — SERENO</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%233A352C'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='19' fill='%23F4F0E8' font-weight='600'>S</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #F4F0E8;
+    --dark:     #3A352C;
+    --text:     #2A2A26;
+    --accent:   #A8744F;
+    --muted:    rgba(42,42,38,.5);
+    --rule:     rgba(58,53,44,.13);
+    --serif:    'Fraunces', Georgia, serif;
+    --sans:     'Inter', system-ui, sans-serif;
+    --ease:     cubic-bezier(.16,1,.3,1);
+    --success:  #4CAF50;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { cursor: pointer; font-family: inherit; }
+
+  .checkout-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .checkout-header {
+    text-align: center;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 24px;
+  }
+
+  .checkout-header h1 {
+    font-family: var(--serif);
+    font-size: 36px;
+    margin-bottom: 8px;
+    letter-spacing: .05em;
+  }
+
+  .checkout-header p {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .checkout-content {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 48px;
+  }
+
+  @media (max-width: 768px) {
+    .checkout-content {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  /* ── RESUMO DO CARRINHO ── */
+  .cart-summary {
+    background: #FDFCFB;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px;
+  }
+
+  .cart-summary-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--dark);
+  }
+
+  .cart-items-list {
+    list-style: none;
+  }
+
+  .cart-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .cart-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .cart-item-img {
+    width: 60px;
+    height: 60px;
+    background: var(--bg);
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .cart-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cart-item-info {
+    flex: 1;
+    font-size: 13px;
+  }
+
+  .cart-item-name {
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .cart-item-size {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .cart-item-price {
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 4px;
+  }
+
+  .cart-item-qty {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  .cart-totals {
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+
+  .cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .cart-total-row.subtotal {
+    color: var(--muted);
+  }
+
+  .cart-total-row.frete {
+    color: var(--muted);
+  }
+
+  .cart-total-row.final {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ── FORMULÁRIO ── */
+  .checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-section {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 24px;
+  }
+
+  .form-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .form-section-title {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 16px;
+    color: var(--dark);
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group:last-child {
+    margin-bottom: 0;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--dark);
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--text);
+    background: white;
+    transition: border-color .2s;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  input::placeholder {
+    color: var(--muted);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .cep-section {
+    display: flex;
+    gap: 8px;
+  }
+
+  .cep-section input {
+    flex: 1;
+  }
+
+  .cep-section button {
+    padding: 10px 16px;
+    background: var(--dark);
+    color: var(--bg);
+    border: none;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background .2s;
+  }
+
+  .cep-section button:hover {
+    background: var(--accent);
+  }
+
+  .cep-message {
+    font-size: 12px;
+    margin-top: 8px;
+    color: var(--muted);
+  }
+
+  .cep-message.success {
+    color: var(--success);
+  }
+
+  .cep-message.error {
+    color: #D32F2F;
+  }
+
+  /* ── MÉTODOS DE PAGAMENTO ── */
+  .payment-methods {
+    margin-bottom: 16px;
+  }
+
+  .payment-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .payment-btn {
+    padding: 16px;
+    border: 2px solid var(--rule);
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .2s;
+    text-align: center;
+  }
+
+  .payment-btn:hover {
+    border-color: var(--accent);
+  }
+
+  .payment-btn.active {
+    border-color: var(--accent);
+    background: rgba(168, 116, 79, .05);
+  }
+
+  .payment-btn-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .payment-btn-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark);
+  }
+
+  .payment-panel {
+    display: none;
+    background: #FDFCFB;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  .payment-panel.show {
+    display: block;
+  }
+
+  .payment-panel-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 16px;
+  }
+
+  /* ── BOTÃO PAGAR ── */
+  .btn-pay {
+    padding: 14px 24px;
+    background: var(--dark);
+    color: var(--bg);
+    border: none;
+    border-radius: 2px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background .2s, transform .15s;
+    margin-top: 24px;
+  }
+
+  .btn-pay:hover:not(:disabled) {
+    background: var(--accent);
+  }
+
+  .btn-pay:active:not(:disabled) {
+    transform: scale(.98);
+  }
+
+  .btn-pay:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+  }
+
+  /* ── MODAL DE SUCESSO ── */
+  .success-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+
+  .success-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .success-modal {
+    background: white;
+    padding: 48px 32px;
+    border-radius: 4px;
+    text-align: center;
+    max-width: 400px;
+    animation: scale-in .3s var(--ease);
+  }
+
+  @keyframes scale-in {
+    from { transform: scale(.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 36px;
+    color: white;
+  }
+
+  .success-modal h2 {
+    font-family: var(--serif);
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: var(--dark);
+  }
+
+  .success-modal p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .success-order {
+    background: #F5F5F5;
+    padding: 12px;
+    border-radius: 2px;
+    font-size: 12px;
+    color: var(--dark);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .btn-close {
+    padding: 10px 24px;
+    background: var(--dark);
+    color: var(--bg);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background .2s;
+  }
+
+  .btn-close:hover {
+    background: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<div class="checkout-container">
+  <div class="checkout-header">
+    <h1>Finalizar Compra</h1>
+    <p>SERENO — Linho que dura a sua década</p>
+  </div>
+
+  <div class="checkout-content">
+    <!-- Formulário -->
+    <form class="checkout-form" id="checkout-form">
+      <!-- Endereço -->
+      <div class="form-section">
+        <div class="form-section-title">Endereço de Entrega</div>
+        <div class="form-group">
+          <label>CEP</label>
+          <div class="cep-section">
+            <input type="text" id="cep-input" placeholder="01310-100" maxlength="9" required>
+            <button type="button" onclick="calculateShipping()">Calcular</button>
+          </div>
+          <div class="cep-message" id="cep-msg"></div>
+        </div>
+        <div class="form-group">
+          <label>Rua</label>
+          <input type="text" id="street-input" placeholder="Avenida Paulista" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Número</label>
+            <input type="text" id="number-input" placeholder="1578" required>
+          </div>
+          <div class="form-group">
+            <label>Complemento</label>
+            <input type="text" id="complement-input" placeholder="Apt 42 (opcional)">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cidade</label>
+            <input type="text" id="city-input" placeholder="São Paulo" required>
+          </div>
+          <div class="form-group">
+            <label>Estado</label>
+            <input type="text" id="state-input" placeholder="SP" maxlength="2" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dados Pessoais -->
+      <div class="form-section">
+        <div class="form-section-title">Dados Pessoais</div>
+        <div class="form-group">
+          <label>Nome Completo</label>
+          <input type="text" id="name-input" placeholder="João Silva" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email-input" placeholder="joao@exemplo.com" required>
+          </div>
+          <div class="form-group">
+            <label>Telefone</label>
+            <input type="tel" id="phone-input" placeholder="(11) 9 8765-4321" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Método de Pagamento -->
+      <div class="form-section">
+        <div class="form-section-title">Método de Pagamento</div>
+        <div class="payment-buttons">
+          <button type="button" class="payment-btn active" onclick="selectPayment('credit')">
+            <div class="payment-btn-icon">💳</div>
+            <div class="payment-btn-label">Crédito</div>
+          </button>
+          <button type="button" class="payment-btn" onclick="selectPayment('debit')">
+            <div class="payment-btn-icon">🏦</div>
+            <div class="payment-btn-label">Débito</div>
+          </button>
+          <button type="button" class="payment-btn" onclick="selectPayment('pix')">
+            <div class="payment-btn-icon">📲</div>
+            <div class="payment-btn-label">PIX</div>
+          </button>
+          <button type="button" class="payment-btn" onclick="selectPayment('boleto')">
+            <div class="payment-btn-icon">📋</div>
+            <div class="payment-btn-label">Boleto</div>
+          </button>
+        </div>
+
+        <!-- Painel Crédito -->
+        <div class="payment-panel show" id="panel-credit">
+          <div class="payment-panel-title">Cartão de Crédito</div>
+          <div class="form-group">
+            <label>Número do Cartão</label>
+            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Válidade</label>
+              <input type="text" placeholder="MM/AA" maxlength="5" required>
+            </div>
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="text" placeholder="123" maxlength="4" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nome no Cartão</label>
+            <input type="text" placeholder="JOÃO SILVA" required>
+          </div>
+        </div>
+
+        <!-- Painel Débito -->
+        <div class="payment-panel" id="panel-debit">
+          <div class="payment-panel-title">Cartão de Débito</div>
+          <div class="form-group">
+            <label>Número do Cartão</label>
+            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Válidade</label>
+              <input type="text" placeholder="MM/AA" maxlength="5" required>
+            </div>
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="text" placeholder="123" maxlength="4" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nome no Cartão</label>
+            <input type="text" placeholder="JOÃO SILVA" required>
+          </div>
+        </div>
+
+        <!-- Painel PIX -->
+        <div class="payment-panel" id="panel-pix">
+          <div class="payment-panel-title">Pagar com PIX</div>
+          <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Após clicar em "Confirmar Pagamento", você receberá um QR Code ou chave PIX para pagar.</p>
+          <div style="background: #F5F5F5; padding: 16px; border-radius: 4px; text-align: center; margin-bottom: 12px;">
+            <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Chave PIX (CPF):</div>
+            <div style="font-family: monospace; font-weight: 600; color: var(--dark); word-break: break-all;">12345678900</div>
+          </div>
+        </div>
+
+        <!-- Painel Boleto -->
+        <div class="payment-panel" id="panel-boleto">
+          <div class="payment-panel-title">Boleto Bancário</div>
+          <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Você receberá o boleto por email após confirmar a compra. Prazo de vencimento: 3 dias.</p>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-pay">Confirmar Pagamento — R$ <span id="final-price">0</span></button>
+    </form>
+
+    <!-- Resumo Lateral -->
+    <aside class="cart-summary">
+      <div class="cart-summary-title">Resumo do Pedido</div>
+      <ul class="cart-items-list" id="cart-items">
+      </ul>
+      <div class="cart-totals">
+        <div class="cart-total-row subtotal">
+          <span>Subtotal</span>
+          <span id="subtotal">R$ 0</span>
+        </div>
+        <div class="cart-total-row frete">
+          <span>Frete</span>
+          <span id="frete">R$ 0</span>
+        </div>
+        <div class="cart-total-row final">
+          <span>Total</span>
+          <span id="total">R$ 0</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- Modal de Sucesso -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-modal">
+    <div class="success-icon">✓</div>
+    <h2>Pedido Confirmado!</h2>
+    <p>Obrigado por sua compra. Você receberá um email com os detalhes do seu pedido.</p>
+    <div class="success-order">
+      Pedido #<span id="order-number"></span><br>
+      Total: R$ <span id="order-total"></span>
+    </div>
+    <button class="btn-close" onclick="voltarParaSite()">Voltar ao Site</button>
+  </div>
+</div>
+
+<script>
+  let cartData = [];
+  let shippingCost = 0;
+  let selectedPayment = 'credit';
+
+  function loadCart() {
+    const stored = sessionStorage.getItem('sereno_cart');
+    if (stored) {
+      try {
+        cartData = JSON.parse(stored);
+        renderCart();
+      } catch (e) {
+        console.error('Erro ao carregar carrinho:', e);
+      }
+    }
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    container.innerHTML = '';
+    let subtotal = 0;
+
+    cartData.forEach(item => {
+      const itemTotal = item.price * item.qty;
+      subtotal += itemTotal;
+
+      const li = document.createElement('li');
+      li.className = 'cart-item';
+      li.innerHTML = `
+        <div class="cart-item-img">
+          <img src="${item.img}" alt="${item.name}">
+        </div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          ${item.sz ? `<div class="cart-item-size">Tamanho: ${item.sz}</div>` : ''}
+          <div class="cart-item-price">R$ ${item.price}</div>
+          <div class="cart-item-qty">Quantidade: ${item.qty}</div>
+        </div>
+      `;
+      container.appendChild(li);
+    });
+
+    updateTotals(subtotal);
+  }
+
+  function updateTotals(subtotal) {
+    const total = subtotal + shippingCost;
+
+    document.getElementById('subtotal').textContent = `R$ ${subtotal}`;
+    document.getElementById('frete').textContent = `R$ ${shippingCost}`;
+    document.getElementById('final-price').textContent = total;
+    document.getElementById('total').textContent = `R$ ${total}`;
+  }
+
+  function calculateShipping() {
+    const cepInput = document.getElementById('cep-input');
+    const cep = cepInput.value.replace(/\D/g, '');
+    const msgEl = document.getElementById('cep-msg');
+
+    msgEl.textContent = '';
+
+    if (!cep || cep.length !== 8) {
+      msgEl.textContent = 'CEP inválido. Use formato: 00000-000';
+      msgEl.className = 'cep-message error';
+      return;
+    }
+
+    // Simular cálculo de frete baseado no CEP (primeiros dígitos)
+    const firstDigits = cep.substring(0, 2);
+    let freteBase = 25;
+
+    if (firstDigits === '01') freteBase = 15; // SP capital
+    else if (firstDigits.startsWith('0')) freteBase = 20; // SP interior
+    else if (firstDigits.startsWith('2') || firstDigits.startsWith('3')) freteBase = 35; // RJ, Minas
+    else if (firstDigits.startsWith('4') || firstDigits.startsWith('5')) freteBase = 45; // Sul
+    else freteBase = 50; // Norte, Nordeste
+
+    shippingCost = freteBase;
+    msgEl.textContent = `✓ Frete calculado: R$ ${freteBase}`;
+    msgEl.className = 'cep-message success';
+
+    // Atualizar totais
+    const subtotal = cartData.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    updateTotals(subtotal);
+  }
+
+  function selectPayment(method) {
+    selectedPayment = method;
+
+    // Remover classe active de todos os botões
+    document.querySelectorAll('.payment-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    // Adicionar classe active ao botão clicado
+    event.target.closest('.payment-btn').classList.add('active');
+
+    // Esconder todos os painéis
+    document.querySelectorAll('.payment-panel').forEach(panel => {
+      panel.classList.remove('show');
+    });
+
+    // Mostrar painel selecionado
+    document.getElementById(`panel-${method}`).classList.add('show');
+  }
+
+  document.getElementById('checkout-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    if (cartData.length === 0) {
+      alert('Carrinho vazio!');
+      return;
+    }
+
+    // Gerar número de pedido aleatório
+    const orderNumber = 'SERENO-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const subtotal = cartData.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const total = subtotal + shippingCost;
+
+    // Mostrar modal de sucesso
+    document.getElementById('order-number').textContent = orderNumber;
+    document.getElementById('order-total').textContent = total;
+    document.getElementById('success-overlay').classList.add('show');
+
+    // Limpar sessionStorage após confirmação
+    setTimeout(() => {
+      sessionStorage.removeItem('sereno_cart');
+    }, 1000);
+  });
+
+  function voltarParaSite() {
+    window.location.href = 'SERENO-polished.html';
+  }
+
+  window.addEventListener('load', loadCart);
+</script>
+
+</body>
+</html>

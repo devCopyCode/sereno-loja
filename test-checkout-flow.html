@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste Fluxo Checkout SERENO</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+    .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; }
+    h1 { color: #3A352C; }
+    .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
+    .test-pass { background: #c8e6c9; color: #2e7d32; }
+    .test-fail { background: #ffcdd2; color: #c62828; }
+    .test-info { background: #e3f2fd; color: #1565c0; }
+    button { padding: 10px 20px; margin: 5px 5px 5px 0; cursor: pointer; border: none; border-radius: 4px; background: #3A352C; color: white; }
+    button:hover { background: #A8744F; }
+    pre { background: #f5f5f5; padding: 10px; border-radius: 4px; overflow: auto; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🧪 Teste do Fluxo de Checkout SERENO</h1>
+
+  <div id="results"></div>
+
+  <button onclick="runTests()">Executar Testes</button>
+  <button onclick="testCheckoutPage()">Testar Página de Checkout</button>
+  <button onclick="location.reload()">Recarregar</button>
+</div>
+
+<script>
+  const results = document.getElementById('results');
+
+  function log(message, type = 'info') {
+    const div = document.createElement('div');
+    div.className = `test-section test-${type}`;
+    div.textContent = message;
+    results.appendChild(div);
+    console.log(`[${type.toUpperCase()}] ${message}`);
+  }
+
+  function runTests() {
+    results.innerHTML = '';
+    log('Iniciando testes...', 'info');
+
+    // Teste 1: Carregar página SERENO-polished.html via iframe
+    const iframe = document.createElement('iframe');
+    iframe.src = 'http://127.0.0.1:8000/SERENO-polished.html';
+    iframe.style.display = 'none';
+    iframe.onload = function() {
+      try {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        const cartBtn = iframeDoc.querySelector('.cart-btn');
+        if (cartBtn) {
+          log('✓ Elemento .cart-btn encontrado', 'pass');
+        } else {
+          log('✗ Elemento .cart-btn não encontrado', 'fail');
+        }
+
+        const products = iframeDoc.querySelectorAll('.pc');
+        if (products.length > 0) {
+          log(`✓ ${products.length} produtos encontrados`, 'pass');
+        } else {
+          log('✗ Nenhum produto encontrado', 'fail');
+        }
+
+        const addButtons = iframeDoc.querySelectorAll('.pc-buy');
+        if (addButtons.length > 0) {
+          log(`✓ ${addButtons.length} botões "Adicionar ao carrinho" encontrados`, 'pass');
+        } else {
+          log('✗ Nenhum botão de adicionar encontrado', 'fail');
+        }
+
+        const checkoutBtn = iframeDoc.querySelector('.cart-checkout');
+        if (checkoutBtn) {
+          log('✓ Botão "Finalizar compra" encontrado', 'pass');
+        } else {
+          log('✗ Botão "Finalizar compra" não encontrado', 'fail');
+        }
+
+        const selSzFunc = iframeDoc.defaultView.selSz;
+        if (typeof selSzFunc === 'function') {
+          log('✓ Função selSz() existe', 'pass');
+        } else {
+          log('✗ Função selSz() não encontrada', 'fail');
+        }
+
+        const cartAddFunc = iframeDoc.defaultView.cartAdd;
+        if (typeof cartAddFunc === 'function') {
+          log('✓ Função cartAdd() existe', 'pass');
+        } else {
+          log('✗ Função cartAdd() não encontrada', 'fail');
+        }
+
+        const checkoutOpenFunc = iframeDoc.defaultView.checkoutOpen;
+        if (typeof checkoutOpenFunc === 'function') {
+          log('✓ Função checkoutOpen() existe', 'pass');
+        } else {
+          log('✗ Função checkoutOpen() não encontrada', 'fail');
+        }
+
+      } catch (e) {
+        log(`✗ Erro ao acessar iframe: ${e.message}`, 'fail');
+      }
+      document.body.removeChild(iframe);
+    };
+    iframe.onerror = function() {
+      log('✗ Erro ao carregar SERENO-polished.html via iframe', 'fail');
+      document.body.removeChild(iframe);
+    };
+    document.body.appendChild(iframe);
+
+    // Teste 2: Testar página de checkout
+    setTimeout(() => {
+      testCheckoutPageContent();
+    }, 2000);
+  }
+
+  function testCheckoutPageContent() {
+    const checkoutIframe = document.createElement('iframe');
+    checkoutIframe.src = 'http://127.0.0.1:8000/SERENO-checkout.html';
+    checkoutIframe.style.display = 'none';
+    checkoutIframe.onload = function() {
+      try {
+        const iframeDoc = checkoutIframe.contentDocument || checkoutIframe.contentWindow.document;
+
+        const form = iframeDoc.querySelector('#checkout-form');
+        if (form) {
+          log('✓ Formulário de checkout encontrado', 'pass');
+        } else {
+          log('✗ Formulário de checkout não encontrado', 'fail');
+        }
+
+        const couponInput = iframeDoc.querySelector('#coupon-input');
+        if (couponInput) {
+          log('✓ Campo de cupom encontrado', 'pass');
+        } else {
+          log('✗ Campo de cupom não encontrado', 'fail');
+        }
+
+        const cartSummary = iframeDoc.querySelector('.cart-summary');
+        if (cartSummary) {
+          log('✓ Resumo do carrinho encontrado', 'pass');
+        } else {
+          log('✗ Resumo do carrinho não encontrado', 'fail');
+        }
+
+        const applyCouponFunc = iframeDoc.defaultView.applyCoupon;
+        if (typeof applyCouponFunc === 'function') {
+          log('✓ Função applyCoupon() existe', 'pass');
+        } else {
+          log('✗ Função applyCoupon() não encontrada', 'fail');
+        }
+
+        const loadCartFunc = iframeDoc.defaultView.loadCart;
+        if (typeof loadCartFunc === 'function') {
+          log('✓ Função loadCart() existe', 'pass');
+        } else {
+          log('✗ Função loadCart() não encontrada', 'fail');
+        }
+
+      } catch (e) {
+        log(`✗ Erro ao acessar checkout iframe: ${e.message}`, 'fail');
+      }
+      document.body.removeChild(checkoutIframe);
+      log('✅ Testes concluídos!', 'pass');
+    };
+    checkoutIframe.onerror = function() {
+      log('✗ Erro ao carregar SERENO-checkout.html', 'fail');
+      document.body.removeChild(checkoutIframe);
+    };
+    document.body.appendChild(checkoutIframe);
+  }
+
+  function testCheckoutPage() {
+    results.innerHTML = '';
+    log('Testando página de checkout...', 'info');
+    testCheckoutPageContent();
+  }
+</script>
+
+</body>
+</html>
